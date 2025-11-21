@@ -1,0 +1,6 @@
+Rain Coat
+50
+Umbrella
+20
+Boots
+22

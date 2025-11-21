@@ -1,0 +1,46 @@
+Apples
+34
+Bananas
+120
+Coconuts
+5
+Dates
+23
+Eggs
+246
+Fish
+44
+Grapes
+13
+Ham
+27
+Ice Cubes
+6
+Jelly
+59
+Kumquat
+3
+Lemon
+62
+Mango
+24
+Nougat
+15
+Oranges
+20
+Potato Chips
+45
+Quinoa
+17
+Raisins
+134
+Soup
+28
+Tree nut mix
+5
+Umbrella
+7
+Veal
+14
+Watermelon
+7
