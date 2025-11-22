@@ -39,8 +39,12 @@ typedef struct {
 
 // function for opening file and reading data
 ItemArray* get_items(char* path);
+// function for saving modified items to file
+int save_items(char* path, ItemArray* items);
 
-// function to input a number
+// input functions
+char* input_s(int* length);
+int input_yn();
 int input_i(int* out);
 
 #endif

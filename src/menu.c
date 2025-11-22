@@ -13,6 +13,7 @@ Main menu logic, handles option display and opens submenus.
 #include "menu.h"
 #include "codes.h"
 #include "manage.h"
+#include "report.h"
 
 // Validate user input and map to MenuOption enum
 static MenuOption validate_menu_input(int input) {
@@ -39,29 +40,39 @@ static void open_manage(ItemArray* items) {
 
 // Open the reports sub-menu
 static void open_report(ItemArray* items) {
-    printf("\"Generate reports\" Entered: Allows generation of reports\n");
+    //printf("\"Generate reports\" Entered: Allows generation of reports\n");
+
+    init_reportmenu(items);
 }
 
 // Quit the application
-static void quit() {
+static void quit(char* path, ItemArray* items) {
     printf("\"Quit the program\" Entered: Program terminated\n");
 
-    // Terminate the process with exit code 0 (success)
-    exit(EXIT_SUCCESS);
+    // save item array changes
+    if (save_items(path, items)) {
+        // terminate the process with exit code 0 (success)
+        exit(EXIT_SUCCESS);
+    } else {
+        // terminate the process with exit code 102 (data fail)
+        exit(EXIT_DATA_ERROR);
+    }
 }
 
 // Single function to open sub-menu associated with option
-static void open_menu(MenuOption option, ItemArray* items) {
+static void open_menu(MenuOption option, char* path, ItemArray* items) {
+    // note:
+    //     may not be necessary to have wrapping functions in menu.c, could call inits directly
     switch (option) {
         case MENU_MANAGE: open_manage(items); break;
         case MENU_REPORT: open_report(items); break;
-        case MENU_QUIT: quit(); break;
+        case MENU_QUIT: quit(path, items); break;
         case MENU_INVALID: printf("Err: invalid menu option."); break;
     }
 }
 
 // Main menu loop logic
-void init_mainmenu(ItemArray* items) {
+void init_mainmenu(char* path, ItemArray* items) {
     // forever loop, only way to exit is by quitting process
     while (1) {        
         MenuOption option = MENU_INVALID;
@@ -80,7 +91,7 @@ void init_mainmenu(ItemArray* items) {
         };
 
         // open the corresponding sub-menu, pass the loaded item array through
-        open_menu(option, items);
+        open_menu(option, path, items);
 
         // Wait for input then dispose
         printf("Press 'return' to continue");

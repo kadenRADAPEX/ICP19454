@@ -26,7 +26,7 @@ void init_managemenu(ItemArray* items) {
         }
 
         // check if input is within bounds of stock items array
-        if (id >= 0 && id <= items->count) {
+        if (id >= 0 && id < items->count) {
             break;
         }
         printf("A product with that number does not exist.\n\n");
