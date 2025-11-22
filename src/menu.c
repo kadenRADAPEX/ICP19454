@@ -3,7 +3,7 @@
 -- project: Component 2
 -- file: menu.c
 -- created: 21/11/25
--- updated: 21/11/25
+-- updated: 22/11/25
 
 Main menu logic, handles option display and opens submenus.
 
@@ -12,21 +12,21 @@ Main menu logic, handles option display and opens submenus.
 #include <stdlib.h>
 #include <stdio.h>
 #include "menu.h"
+#include "codes.h"
 
 // Input a decimal integer
-int input_d() {
+static int input_d() {
     // Store user input in a 50 character buffer
     char buffer[50];
     fgets(buffer, 50, stdin);
 
     // Will return 0 if input is not a number
-    char* _;
-    int d = strtod(buffer, &_);
+    int d = atoi(buffer);
     return d;
 }
 
 // Validate user input and map to MenuOption enum
-MenuOption validate_menu_input(int input) {
+static MenuOption validate_menu_input(int input) {
     // Outside of valid range
     if (input < 1 || input > 3) return MENU_INVALID;
 
@@ -41,25 +41,25 @@ MenuOption validate_menu_input(int input) {
 }
 
 // Open the manage stock levels sub-menu
-void open_manage() {
+static void open_manage() {
     printf("\"Manage Stock Levels\" Entered: Allows control of stock levels\n");
 }
 
 // Open the reports sub-menu
-void open_report() {
+static void open_report() {
     printf("\"Generate reports\" Entered: Allows generation of reports\n");
 }
 
 // Quit the application
-void quit() {
+static void quit() {
     printf("\"Quit the program\" Entered: Program terminated\n");
 
     // Terminate the process with exit code 0 (success)
-    exit(0);
+    exit(EXIT_SUCCESS);
 }
 
 // Single function to open sub-menu associated with option
-void open_menu(MenuOption option) {
+static void open_menu(MenuOption option) {
     switch (option) {
         case MENU_MANAGE: open_manage(); break;
         case MENU_REPORT: open_report(); break;
@@ -70,6 +70,7 @@ void open_menu(MenuOption option) {
 
 // Main menu loop logic
 void init_mainmenu() {
+    // forever loop, only way to exit is by quitting process
     while (1) {        
         MenuOption option = MENU_INVALID;
         do {
