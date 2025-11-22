@@ -12,17 +12,6 @@ Data loading, parsing, and saving with helper functions for string manipulation
 #include <stdlib.h>
 #include "data.h"
 
-// Opens a file and returns the pointer
-// note:
-//     assumes that the caller will close the file
-static FILE* open_file_rb(char* path) {
-    FILE* fptr = fopen(path, "rb");
-    if (fptr == NULL) {
-        return NULL;
-    }
-    return fptr;
-}
-
 // Helper function to check if entire string is composed of digit characters
 // note:
 //     allows for first character to be arithmetic operator ( + - )
@@ -54,6 +43,47 @@ static int is_empty_line(char* line, ssize_t length) {
     return 1;
 }
 
+// Input a string
+// removes the new line from end of input
+char* input_s(int* length) {
+    char* buffer = (char*)malloc(sizeof(char) * 65);
+    fgets(buffer, 65, stdin);
+
+    // loop through characters
+    for (int i = 0;;i++) {
+        char c = buffer[i];
+
+        // found end of string
+        if (c == '\0') {
+            *length = i;
+            break;
+        }
+
+        // found new line, terminate string here
+        if (c == '\n') {
+            *length = i;
+            buffer[i] = '\0';
+            break;
+        }
+    }
+    return buffer;
+}
+
+// Input yes or no
+// returns 1 for yes or 0 for no
+int input_yn() {
+    while (1) {
+        printf("[y/n] ");
+        int length;
+        char* buffer = input_s(&length);
+        if (length == 1) {
+            char c = buffer[0];
+            if (c == 'y' || c == 'n') return c == 'y';
+        }
+        printf("only y or n will be accepted.\n");
+    }
+}
+
 // Input an integer
 // returns success code
 int input_i(int* out) {
@@ -72,7 +102,7 @@ int input_i(int* out) {
 // Main data parsing function
 ItemArray* get_items(char* path) {
     // open the file at {path}
-    FILE* fptr = open_file_rb(path);
+    FILE* fptr = fopen(path, "rb");
     // check if file opened successfully (i.e. if it exists)
     if (fptr == NULL) {
         printf(" stock data file missing : %s\n", path);
@@ -150,7 +180,7 @@ ItemArray* get_items(char* path) {
             if (item_stock < 0) { err("Invalid stock level.\n"); }
 
             // allocate the Item object and initialise its fields
-            Item* item = malloc(sizeof(Item));
+            Item* item = (Item*)malloc(sizeof(Item));
             item->id = entry - 1;
             item->name = item_name;
             item->stock = item_stock;
@@ -180,7 +210,7 @@ ItemArray* get_items(char* path) {
 
     // close data file
     // note:
-    //     pretty sure fclose will free the file but research this more
+    //     pretty sure fclose will free the file but may not be the case
     fclose(fptr);
 
     // allocate ItemArray with array and count
@@ -190,4 +220,29 @@ ItemArray* get_items(char* path) {
 
     // return ItemArray pointer
     return items;
+}
+
+// Saves Items from items array to file located at path
+// returns success code
+// A lot simpler then the reverse...
+// note:
+//     does not guarantee that items will be saved in the same order they were read
+int save_items(char* path, ItemArray* items) {
+    // open file in write mode and check for null
+    FILE* fptr = fopen(path, "w");
+    if (fptr == NULL) {
+        printf("could not write to file \"%s\".\n", path);
+        return 0;
+    }
+
+    // loop through all items and write them to file
+    for (int i = 0; i < items->count; i++) {
+        Item* item = items->array[i];
+        fprintf(fptr, "%s\n%d\n", item->name, item->stock);
+    }
+
+    // close and save file
+    fclose(fptr);
+
+    return 1;
 }

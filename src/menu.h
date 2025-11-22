@@ -24,6 +24,6 @@ typedef enum {
 } MenuOption;
 
 // Main menu init function
-void init_mainmenu(ItemArray* items);
+void init_mainmenu(char* path, ItemArray* items);
 
 #endif

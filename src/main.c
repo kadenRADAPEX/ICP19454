@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
     printf("\n");
 
     // Boot up the main menu loop
-    init_mainmenu(items);
+    init_mainmenu(path, items);
 
     // Exit 0: success
     // Unlikely for the program to reach this, as "quit" menu option manually exits
