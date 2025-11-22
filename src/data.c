@@ -24,13 +24,16 @@ static FILE* open_file_rb(char* path) {
 }
 
 // Helper function to check if entire string is composed of digit characters
+// note:
+//     allows for first character to be arithmetic operator ( + - )
 static int is_numeric(char* string) {
     int i = 0;
     char c = string[i];
     // while not at the end of the line or the eof
     while (c != '\0' && c != '\n') {
         // if ASCII code outside codes for 0 and 9, it is not a digit
-        if (c > '9' || c < '0') return 0;
+        if (i == 0 && (c > '9' || c < '0') && c != '+' && c != '-') return 0;
+        if (i != 0 && (c > '9' || c < '0')) return 0;
         // (pre) increment character
         c = string[++i];
     }
@@ -48,6 +51,21 @@ static int is_empty_line(char* line, ssize_t length) {
         if (c != ' ' && c != '\t' && c != '\v' && c != '\n' && c != '\f' && c != '\r') return 0;
     }
     // reached loop end without finding any non-whitespace characters, line is empty
+    return 1;
+}
+
+// Input an integer
+// returns success code
+int input_i(int* out) {
+    // Store user input in a 64 character buffer
+    char buffer[64];
+    fgets(buffer, 64, stdin);
+
+    // check if input is numeric
+    if (!is_numeric(buffer)) return 0;
+
+    // Will return 0 if input is not a number
+    *out = atoi(buffer);
     return 1;
 }
 

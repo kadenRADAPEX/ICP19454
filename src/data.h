@@ -40,4 +40,7 @@ typedef struct {
 // function for opening file and reading data
 ItemArray* get_items(char* path);
 
+// function to input a number
+int input_i(int* out);
+
 #endif

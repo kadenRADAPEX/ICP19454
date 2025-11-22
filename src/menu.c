@@ -8,22 +8,11 @@
 Main menu logic, handles option display and opens submenus.
 
 */
-
 #include <stdlib.h>
 #include <stdio.h>
 #include "menu.h"
 #include "codes.h"
-
-// Input a decimal integer
-static int input_d() {
-    // Store user input in a 50 character buffer
-    char buffer[50];
-    fgets(buffer, 50, stdin);
-
-    // Will return 0 if input is not a number
-    int d = atoi(buffer);
-    return d;
-}
+#include "manage.h"
 
 // Validate user input and map to MenuOption enum
 static MenuOption validate_menu_input(int input) {
@@ -41,12 +30,15 @@ static MenuOption validate_menu_input(int input) {
 }
 
 // Open the manage stock levels sub-menu
-static void open_manage() {
-    printf("\"Manage Stock Levels\" Entered: Allows control of stock levels\n");
+static void open_manage(ItemArray* items) {
+    //printf("\"Manage Stock Levels\" Entered: Allows control of stock levels\n");
+
+    // manage stock levels loop
+    init_managemenu(items);
 }
 
 // Open the reports sub-menu
-static void open_report() {
+static void open_report(ItemArray* items) {
     printf("\"Generate reports\" Entered: Allows generation of reports\n");
 }
 
@@ -59,32 +51,41 @@ static void quit() {
 }
 
 // Single function to open sub-menu associated with option
-static void open_menu(MenuOption option) {
+static void open_menu(MenuOption option, ItemArray* items) {
     switch (option) {
-        case MENU_MANAGE: open_manage(); break;
-        case MENU_REPORT: open_report(); break;
+        case MENU_MANAGE: open_manage(items); break;
+        case MENU_REPORT: open_report(items); break;
         case MENU_QUIT: quit(); break;
         case MENU_INVALID: printf("Err: invalid menu option."); break;
     }
 }
 
 // Main menu loop logic
-void init_mainmenu() {
+void init_mainmenu(ItemArray* items) {
     // forever loop, only way to exit is by quitting process
     while (1) {        
         MenuOption option = MENU_INVALID;
-        do {
+        while (1) {
             printf("1. Manage Stock Levels\n2. Generate Reports\n3. Quit the Program\n\nPlease enter your selection:\n");
-            int selection = input_d();
+            
+            int selection;
+            input_i(&selection);
             option = validate_menu_input(selection);
-            if (option == MENU_INVALID) {
-                printf("Invalid option.\n\n");
+
+            // check if input was valid menu option
+            if (option != MENU_INVALID) {
+                break;
             }
-        } while(option == MENU_INVALID);
+            printf("Invalid option.\n\n");
+        };
 
-        open_menu(option);
+        // open the corresponding sub-menu, pass the loaded item array through
+        open_menu(option, items);
 
+        // Wait for input then dispose
         printf("Press 'return' to continue");
-        input_d();
+        char _[2];
+        fgets(_, 2, stdin);
+        printf("\n");
     }
 }

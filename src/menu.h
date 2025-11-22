@@ -13,6 +13,8 @@ Header file for main menu
 #ifndef menu_h
 #define menu_h
 
+#include "data.h"
+
 // Valid menu options stored as enumator
 typedef enum {
     MENU_INVALID,
@@ -22,6 +24,6 @@ typedef enum {
 } MenuOption;
 
 // Main menu init function
-void init_mainmenu();
+void init_mainmenu(ItemArray* items);
 
 #endif
