@@ -101,7 +101,7 @@ int input_i(int* out) {
 
 // Main data parsing function
 ItemArray* get_items(char* path) {
-    // open the file at {path}
+    // open the file at [path]
     FILE* fptr = fopen(path, "rb");
     // check if file opened successfully (i.e. if it exists)
     if (fptr == NULL) {
@@ -123,7 +123,7 @@ ItemArray* get_items(char* path) {
     #define err(msg) \
         printf(msg); \
         free(stack); \
-        return NULL // omit final semicolon so that it can be called with a semicolon after (purely cosmetic reason)
+        return NULL
 
     // rotating variable item_name
     // first line read -> item_name is set to line chars

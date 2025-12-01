@@ -30,22 +30,28 @@ ItemArray* bubble_sort(ItemArray* unsorted) {
         s_array[i] = u_array[i];
     }
 
+    // bubble sort logic
     int swapped = 0;
     do {
         swapped = 0;
 
+        // compare item pairs in turn
         for (int i = 0; i < length - 1; i++) {
             Item* a = s_array[i];
             Item* b = s_array[i+1];
+            // If a's stock greater than b's stock, swap
             if (a->stock > b->stock) {
+                // set swap flag to true
                 swapped = 1;
                 s_array[i] = b;
                 s_array[i+1] = a;
             }
         }
 
+        // repeat until pass completed without swapping
     } while (swapped);
 
+    // return a new ItemArray object
     ItemArray* sorted = (ItemArray*)malloc(sizeof(ItemArray));
     sorted->array = s_array;
     sorted->count = length;

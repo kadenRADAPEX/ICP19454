@@ -39,14 +39,13 @@ int main(int argc, char** argv) {
         return EXIT_DATA_ERROR;
     }
 
+    // Initial file output to check if read okay
     for (int i = 0; i < items->count; i++) {
         Item* item = items->array[i];
         printf("%d %s %d\n", item->id, item->name, item->stock);
     }
 
-    printf("Total products loaded : %d\n", items->count);
-
-    printf("\n");
+    printf("Total products loaded : %d\n\n", items->count);
 
     // Boot up the main menu loop
     init_mainmenu(path, items);
