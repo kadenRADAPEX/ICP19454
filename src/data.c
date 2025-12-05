@@ -15,17 +15,15 @@ Data loading, parsing, and saving with helper functions for string manipulation
 // Helper function to check if entire string is composed of digit characters
 // note:
 //     allows for first character to be arithmetic operator ( + - )
-static int is_numeric(char* string) {
-    int i = 0;
-    char c = string[i];
+static int is_numeric(char* string) {    
     // while not at the end of the line or the eof
-    while (c != '\0' && c != '\n') {
-        // if ASCII code outside codes for 0 and 9, it is not a digit
+    for (int i = 0; string[i] != '\0' && string[i] != '\n'; i++) {
+        char c = string[i];
+        // if ASCII code outside range for 0 and 9, it is not a digit
         if (i == 0 && (c > '9' || c < '0') && c != '+' && c != '-') return 0;
         if (i != 0 && (c > '9' || c < '0')) return 0;
-        // (pre) increment character
-        c = string[++i];
     }
+
     return 1;
 }
 
