@@ -77,6 +77,7 @@ void init_reportmenu(ItemArray* items) {
         //     since we're in write mode, non-existant files should be created, however we still check for errors
         if (fptr == NULL) {
             printf("Could not open file at \"%s\".\n", path);
+            return;
         }
     }
 
