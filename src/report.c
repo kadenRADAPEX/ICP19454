@@ -3,7 +3,6 @@
 -- project: Component 2
 -- file: menu.h
 -- created: 28/11/25
--- updated: 30/11/25
 
 Generates reports from ItemArray and outputs them to file stream or stdout stream
 

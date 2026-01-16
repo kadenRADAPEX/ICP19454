@@ -3,7 +3,6 @@
 -- project: Component 2
 -- file: main.c
 -- created: 28/11/25
--- updated: 30/11/25
 
 Initialises the program.
 

@@ -3,7 +3,6 @@
 -- project: Component 2
 -- file: menu.h
 -- created: 28/11/25
--- updated: 30/11/25
 
 Header file for main menu
 

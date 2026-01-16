@@ -3,7 +3,6 @@
 -- project: Component 2
 -- file: manage.c
 -- created: 28/11/25
--- updated: 30/11/25
 
 Displays menu for managing stock levels. Allows user to input product id and stock adjustment.
 

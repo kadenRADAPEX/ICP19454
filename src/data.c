@@ -134,11 +134,6 @@ ItemArray* get_items(char* path) {
 
         // read a single line from the file
         // here, the actual length of the line content is bytes
-        /*
-            capacity is the "variable that holds the size of the input buffer"
-            dgookin (n.d.). The getline() Function | C For Dummies Blog. [online]
-            Available at: https://c-for-dummies.com/blog/?p=1112.
-        */
         char* line = NULL;
         size_t capacity = 0;
         ssize_t bytes = getline(&line, &capacity, fptr);
